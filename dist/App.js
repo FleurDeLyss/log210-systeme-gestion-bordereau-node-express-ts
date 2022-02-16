@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var express = require("express");
 var logger = require("morgan");
+var path = require('path');
 var CourseRouter_1 = require("./routes/CourseRouter");
 var ScheduleRouter_1 = require("./routes/ScheduleRouter");
 var SemesterRouter_1 = require("./routes/SemesterRouter");
@@ -33,11 +34,11 @@ var App = /** @class */ (function () {
              * @apiGroup Documentation
              * @apiDescription  Afficher le diagramme de classe
              */
-        // router.get('/dcl', function (req, res) {
-        //   res.redirect('/docs/dcl.svg');
-        // })
+        router.get('/dcl2', function (req, res) {
+            res.redirect('/docs/dcl.svg');
+        });
         router.get('/', function (req, res) {
-            res.redirect('/docs/index.html');
+            res.redirect('docs/index.html');
         });
         this.express.use('/api/v3/healt', HealtRouter_1.healtRouter.router);
         this.express.use('/api/v3/course', CourseRouter_1.courseRouter.router);
@@ -46,8 +47,9 @@ var App = /** @class */ (function () {
         this.express.use('/api/v3/student', StudentRouter_1.studentRouter.router);
         this.express.use('/api/v3/teacher', TeacherRouter_1.teacherRouter.router);
         this.express.use('/api/v3/grade', GradeRouter_1.gradeRouter.router);
-        this.express.use('/docs', express.static('dist/docs'));
-        this.express.use('/dcl', express.static('dist/docs/dcl.svg'));
+        this.express.use('/docs', express.static(path.join(__dirname, 'docs')));
+        this.express.use('/dcl', express.static(path.join(__dirname, 'docs/dcl.svg')));
+        this.express.use('/static', express.static(path.join(__dirname, 'public')));
         this.express.use('/', router); // routage de base
     };
     return App;
